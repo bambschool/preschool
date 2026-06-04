@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BAMB! Preschool — Behavioral Modeling Primer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple-50: #EEEDFE;
+      --purple-100: #CECBF6;
+      --purple-200: #AFA9EC;
+      --purple-600: #534AB7;
+      --purple-800: #3C3489;
+      --purple-900: #26215C;
+      --teal-50: #E1F5EE;
+      --teal-100: #9FE1CB;
+      --teal-600: #0F6E56;
+      --teal-800: #085041;
+      --blue-50: #E6F1FB;
+      --blue-100: #B5D4F4;
+      --blue-600: #185FA5;
+      --blue-800: #0C447C;
+      --amber-50: #FAEEDA;
+      --amber-100: #FAC775;
+      --amber-600: #854F0B;
+      --amber-800: #633806;
+      --coral-50: #FAECE7;
+      --coral-100: #F5C4B3;
+      --coral-600: #993C1D;
+      --coral-800: #712B13;
+      --green-50: #EAF3DE;
+      --green-100: #C0DD97;
+      --green-600: #3B6D11;
+      --gray-50: #F1EFE8;
+      --gray-100: #D3D1C7;
+      --gray-200: #B4B2A9;
+      --gray-600: #5F5E5A;
+      --gray-900: #2C2C2A;
+      --text-primary: #1a1a18;
+      --text-secondary: #5F5E5A;
+      --text-tertiary: #888780;
+      --bg-primary: #ffffff;
+      --bg-secondary: #F8F7F2;
+      --bg-tertiary: #F1EFE8;
+      --border-light: rgba(0,0,0,0.08);
+      --border-mid: rgba(0,0,0,0.14);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      font-size: 15px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Layout ── */
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      border-bottom: 0.5px solid var(--border-light);
+      background: var(--bg-primary);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topbar-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .topbar-logo {
+      width: 28px;
+      height: 28px;
+      background: var(--purple-600);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .topbar-logo svg { width: 16px; height: 16px; fill: none; stroke: white; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .topbar-name { font-size: 14px; font-weight: 500; color: var(--text-primary); }
+    .topbar-name span { color: var(--text-tertiary); font-weight: 400; }
+    .topbar-links { display: flex; align-items: center; gap: 20px; }
+    .topbar-links a { font-size: 13px; color: var(--text-secondary); transition: color 0.15s; }
+    .topbar-links a:hover { color: var(--text-primary); }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--bg-primary);
+      border-bottom: 0.5px solid var(--border-light);
+      padding: 3rem 0 2.5rem;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--purple-50);
+      color: var(--purple-800);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-bottom: 1.25rem;
+      letter-spacing: 0.01em;
+    }
+    .hero h1 {
+      font-size: 34px;
+      font-weight: 500;
+      line-height: 1.2;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--purple-600);
+    }
+    .hero-lead {
+      font-size: 16px;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      max-width: 600px;
+      margin-bottom: 1.75rem;
+    }
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .stat {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .stat svg { width: 15px; height: 15px; stroke: var(--text-tertiary); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 18px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .btn-primary { background: var(--purple-600); color: white; border: none; }
+    .btn-primary:hover { background: var(--purple-800); }
+    .btn-outline { background: transparent; color: var(--text-primary); border: 0.5px solid var(--border-mid); }
+    .btn-outline:hover { background: var(--bg-tertiary); }
+
+    /* ── Notice banner ── */
+    .notice {
+      background: var(--amber-50);
+      border: 0.5px solid var(--amber-100);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 2rem 0;
+      font-size: 13px;
+      color: var(--amber-800);
+      line-height: 1.5;
+    }
+    .notice svg { width: 16px; height: 16px; stroke: var(--amber-600); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── Section structure ── */
+    .section {
+      padding: 2.5rem 0;
+      border-bottom: 0.5px solid var(--border-light);
+    }
+    .section:last-of-type { border-bottom: none; }
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--purple-600);
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+    .section-intro {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 580px;
+      margin-bottom: 1.75rem;
+    }
+
+    /* ── Lecture cards ── */
+    .lecture-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .lecture-card {
+      background: var(--bg-primary);
+      border: 0.5px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: border-color 0.15s;
+    }
+    .lecture-card:hover { border-color: var(--border-mid); }
+
+    .lecture-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .lec-num {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 500;
+      flex-shrink: 0;
+      font-family: 'DM Mono', monospace;
+    }
+    .lec-num-1 { background: var(--purple-50); color: var(--purple-800); }
+    .lec-num-2 { background: var(--teal-50); color: var(--teal-800); }
+    .lec-num-3 { background: var(--blue-50); color: var(--blue-800); }
+
+    .lec-meta { flex: 1; min-width: 0; }
+    .lec-tag {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .lec-tag-1 { color: var(--purple-600); }
+    .lec-tag-2 { color: var(--teal-600); }
+    .lec-tag-3 { color: var(--blue-600); }
+
+    .lec-title {
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    .lec-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .lecture-divider {
+      height: 0.5px;
+      background: var(--border-light);
+      margin: 0 1.5rem;
+    }
+
+    .lecture-card-body {
+      padding: 1rem 1.5rem 1.25rem;
+    }
+
+    .topics-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .topics-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 1rem;
+    }
+    .topic-pill {
+      font-size: 12px;
+      color: var(--text-secondary);
+      background: var(--bg-tertiary);
+      border: 0.5px solid var(--border-light);
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+
+    .resource-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 0.25rem;
+    }
+    .res-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: var(--radius-sm);
+      transition: all 0.12s;
+    }
+    .res-link svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .res-video {
+      background: var(--coral-50);
+      color: var(--coral-800);
+      border: 0.5px solid var(--coral-100);
+    }
+    .res-video:hover { background: var(--coral-100); }
+
+    .res-slides {
+      background: var(--purple-50);
+      color: var(--purple-800);
+      border: 0.5px solid var(--purple-100);
+    }
+    .res-slides:hover { background: var(--purple-100); }
+
+    .res-colab {
+      background: var(--amber-50);
+      color: var(--amber-800);
+      border: 0.5px solid var(--amber-100);
+    }
+    .res-colab:hover { background: var(--amber-100); }
+
+    .res-github {
+      background: var(--gray-50);
+      color: var(--gray-600);
+      border: 0.5px solid var(--gray-100);
+    }
+    .res-github:hover { background: var(--gray-100); }
+
+    .res-coming {
+      background: transparent;
+      color: var(--text-tertiary);
+      border: 0.5px dashed var(--gray-200);
+      cursor: default;
+    }
+
+    /* ── Format section ── */
+    .format-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .format-card {
+      background: var(--bg-primary);
+      border: 0.5px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem 1.25rem;
+    }
+    .format-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    .format-icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .format-icon-1 { background: var(--coral-50); color: var(--coral-600); }
+    .format-icon-2 { background: var(--amber-50); color: var(--amber-600); }
+    .format-icon-3 { background: var(--green-50); color: var(--green-600); }
+    .format-icon-4 { background: var(--blue-50); color: var(--blue-600); }
+    .format-card h4 { font-size: 13px; font-weight: 500; color: var(--text-primary); margin-bottom: 4px; }
+    .format-card p { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
+
+    /* ── Prerequisites ── */
+    .prereq-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 10px;
+    }
+    .prereq-card {
+      background: var(--bg-primary);
+      border: 0.5px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 0.9rem 1rem;
+    }
+    .prereq-tag {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--purple-600);
+      background: var(--purple-50);
+      padding: 2px 8px;
+      border-radius: 100px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+    .prereq-card h4 { font-size: 13px; font-weight: 500; color: var(--text-primary); margin-bottom: 4px; }
+    .prereq-card p { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+
+    /* ── About BAMB ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .about-card {
+      background: var(--bg-primary);
+      border: 0.5px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.1rem;
+    }
+    .about-card h4 { font-size: 13px; font-weight: 500; color: var(--text-primary); margin-bottom: 6px; }
+    .about-card p { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+    .about-card a { color: var(--blue-600); }
+    .about-card a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    .footer {
+      padding: 2rem 0;
+      margin-top: 0;
+    }
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 1.5rem;
+      border-top: 0.5px solid var(--border-light);
+    }
+    .footer p { font-size: 12px; color: var(--text-tertiary); line-height: 1.6; }
+    .footer a { color: var(--text-secondary); }
+    .footer a:hover { color: var(--text-primary); }
+    .footer-links { display: flex; gap: 16px; }
+    .footer-links a { font-size: 12px; color: var(--text-secondary); }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 26px; }
+      .topbar-links { display: none; }
+      .lecture-card-header { flex-direction: column; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top navigation bar -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-brand">
+      <div class="topbar-logo">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </div>
+      <span class="topbar-name">BAMB! <span>/ Preschool</span></span>
+    </div>
+    <nav class="topbar-links">
+      <a href="https://github.com/bambschool/preschool">GitHub</a>
+      <a href="https://github.com/bambschool/BAMB2024">Full course (2024)</a>
+      <a href="https://github.com/bambschool">bambschool org</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="page">
+    <div class="hero-eyebrow">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      BAMB! Barcelona Summer School
+    </div>
+    <h1>Preschool:<br><em>Modeling 101</em></h1>
+    <p class="hero-lead">
+      A self-contained introduction to computational behavioral modeling — three focused lectures 
+      taking you from the basics of model definition all the way to parameter fitting, recovery, 
+      and model comparison. The foundation you need before the full BAMB! summer school.
+    </p>
+    <div class="hero-stats">
+      <span class="stat">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        3 lectures + tutorials
+      </span>
+      <span class="stat">
+        <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        Python / Jupyter
+      </span>
+      <span class="stat">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Open-source · CC BY 4.0
+      </span>
+      <span class="stat">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Self-paced or instructed
+      </span>
+    </div>
+    <div class="cta-row">
+      <a href="https://github.com/bambschool/preschool" class="btn btn-primary">
+        <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        View on GitHub
+      </a>
+      <a href="https://github.com/bambschool/preschool/tree/main/slides" class="btn btn-outline">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Lecture slides
+      </a>
+      <a href="https://github.com/bambschool/preschool/tree/main/code" class="btn btn-outline">
+        <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        Notebooks
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Main content -->
+<main>
+
+  <!-- Update notice -->
+  <div class="page">
+    <div class="notice">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span>Some materials are from last year and are being updated for the current edition. 
+      Lecture videos will be posted on YouTube shortly — placeholder links are provided below. 
+      Check back or watch the GitHub repo for updates.</span>
+    </div>
+  </div>
+
+  <!-- Lectures -->
+  <section class="section">
+    <div class="page">
+      <div class="section-label">Curriculum</div>
+      <h2 class="section-title">Three lectures</h2>
+      <p class="section-intro">
+        Each lecture pairs a ~45-minute video introduction with a hands-on Python tutorial notebook, 
+        building progressively from model definition to fitting and formal model comparison.
+      </p>
+
+      <div class="lecture-list">
+
+        <!-- Lecture 1 -->
+        <article class="lecture-card">
+          <div class="lecture-card-header">
+            <div class="lec-num lec-num-1">L1</div>
+            <div class="lec-meta">
+              <div class="lec-tag lec-tag-1">Lecture 1 · Model definition</div>
+              <div class="lec-title">What is a model? Definition and estimation</div>
+              <div class="lec-desc">
+                An introduction to the logic of computational modeling in cognitive neuroscience.
+                Why do we build models? We walk through what a model is, how to write down a 
+                likelihood function, and how to estimate parameters from behavioral data using 
+                maximum likelihood estimation.
+              </div>
+            </div>
+          </div>
+          <div class="lecture-divider"></div>
+          <div class="lecture-card-body">
+            <div class="topics-label">Topics covered</div>
+            <div class="topics-list">
+              <span class="topic-pill">What is a model?</span>
+              <span class="topic-pill">Generative models</span>
+              <span class="topic-pill">Likelihood function</span>
+              <span class="topic-pill">Maximum likelihood estimation</span>
+              <span class="topic-pill">Psychometric functions</span>
+              <span class="topic-pill">Noise models</span>
+            </div>
+            <div class="resource-row">
+              <a href="#" class="res-link res-video" title="Coming soon — will link to YouTube">
+                <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Lecture video (coming soon)
+              </a>
+              <a href="https://github.com/bambschool/preschool/tree/main/slides" class="res-link res-slides">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                Slides (GitHub)
+              </a>
+              <a href="https://colab.research.google.com/github/bambschool/preschool/blob/main/code/tutorial_1.ipynb" class="res-link res-colab">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                Open in Colab
+              </a>
+              <a href="https://github.com/bambschool/preschool/blob/main/code/tutorial_1.ipynb" class="res-link res-github">
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                Notebook (GitHub)
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Lecture 2 -->
+        <article class="lecture-card">
+          <div class="lecture-card-header">
+            <div class="lec-num lec-num-2">L2</div>
+            <div class="lec-meta">
+              <div class="lec-tag lec-tag-2">Lecture 2 · Parameter fitting</div>
+              <div class="lec-title">Fitting models to data: parameter fitting and recovery</div>
+              <div class="lec-desc">
+                How do we find the best parameters for a model given observed behavior? 
+                We cover numerical optimization, introduce parameter recovery as a way to 
+                validate your fitting pipeline, and discuss common pitfalls — local minima, 
+                identifiability, and overfitting.
+              </div>
+            </div>
+          </div>
+          <div class="lecture-divider"></div>
+          <div class="lecture-card-body">
+            <div class="topics-label">Topics covered</div>
+            <div class="topics-list">
+              <span class="topic-pill">Numerical optimization</span>
+              <span class="topic-pill">scipy.optimize</span>
+              <span class="topic-pill">Loss landscapes</span>
+              <span class="topic-pill">Parameter recovery</span>
+              <span class="topic-pill">Identifiability</span>
+              <span class="topic-pill">Simulation-based validation</span>
+            </div>
+            <div class="resource-row">
+              <a href="#" class="res-link res-video" title="Coming soon — will link to YouTube">
+                <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Lecture video (coming soon)
+              </a>
+              <a href="https://github.com/bambschool/preschool/tree/main/slides" class="res-link res-slides">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                Slides (GitHub)
+              </a>
+              <a href="https://colab.research.google.com/github/bambschool/preschool/blob/main/code/tutorial_2.ipynb" class="res-link res-colab">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                Open in Colab
+              </a>
+              <a href="https://github.com/bambschool/preschool/blob/main/code/tutorial_2.ipynb" class="res-link res-github">
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                Notebook (GitHub)
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Lecture 3 -->
+        <article class="lecture-card">
+          <div class="lecture-card-header">
+            <div class="lec-num lec-num-3">L3</div>
+            <div class="lec-meta">
+              <div class="lec-tag lec-tag-3">Lecture 3 · Model comparison</div>
+              <div class="lec-title">Which model is best? Formal model comparison</div>
+              <div class="lec-desc">
+                With multiple candidate models in hand, how do we decide which one best explains 
+                the data — without just rewarding complexity? We cover information criteria (BIC, AIC), 
+                cross-validation, and Bayesian model comparison, with hands-on examples using 
+                simulated and real choice data.
+              </div>
+            </div>
+          </div>
+          <div class="lecture-divider"></div>
+          <div class="lecture-card-body">
+            <div class="topics-label">Topics covered</div>
+            <div class="topics-list">
+              <span class="topic-pill">BIC &amp; AIC</span>
+              <span class="topic-pill">Cross-validation</span>
+              <span class="topic-pill">Bayesian model comparison</span>
+              <span class="topic-pill">Model mimicry</span>
+              <span class="topic-pill">Protected exceedance probability</span>
+              <span class="topic-pill">Model recovery</span>
+            </div>
+            <div class="resource-row">
+              <a href="#" class="res-link res-video" title="Coming soon — will link to YouTube">
+                <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Lecture video (coming soon)
+              </a>
+              <a href="https://github.com/bambschool/preschool/tree/main/slides" class="res-link res-slides">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                Slides (GitHub)
+              </a>
+              <a href="https://colab.research.google.com/github/bambschool/preschool/blob/main/code/tutorial_3.ipynb" class="res-link res-colab">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                Open in Colab
+              </a>
+              <a href="https://github.com/bambschool/preschool/blob/main/code/tutorial_3.ipynb" class="res-link res-github">
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                Notebook (GitHub)
+              </a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Format section -->
+  <section class="section" style="background: var(--bg-primary); border-top: 0.5px solid var(--border-light);">
+    <div class="page">
+      <div class="section-label">How it works</div>
+      <h2 class="section-title">Format</h2>
+      <p class="section-intro">Each of the three modules follows the same structure, mixing video lecture with active coding.</p>
+      <div class="format-grid">
+        <div class="format-card">
+          <div class="format-icon format-icon-1">
+            <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          </div>
+          <h4>Lecture video (~45 min)</h4>
+          <p>Async video introducing the topic, building theory and intuition from scratch.</p>
+        </div>
+        <div class="format-card">
+          <div class="format-icon format-icon-2">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+          <h4>Tutorial notebook (~2 hrs)</h4>
+          <p>Guided Jupyter notebook — implement, simulate, and fit models in Python.</p>
+        </div>
+        <div class="format-card">
+          <div class="format-icon format-icon-3">
+            <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h4>Run on Google Colab</h4>
+          <p>No local installation needed — open any notebook directly in your browser via Colab.</p>
+        </div>
+        <div class="format-card">
+          <div class="format-icon format-icon-4">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <h4>Solutions included</h4>
+          <p>Each notebook has a companion solutions file — work through it yourself first, then check.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Prerequisites -->
+  <section class="section">
+    <div class="page">
+      <div class="section-label">Before you start</div>
+      <h2 class="section-title">Prerequisites</h2>
+      <p class="section-intro">
+        The preschool is designed to be accessible with undergraduate-level math and basic Python. 
+        No prior experience with computational modeling is assumed.
+      </p>
+      <div class="prereq-grid">
+        <div class="prereq-card">
+          <span class="prereq-tag">Math</span>
+          <h4>Probability basics</h4>
+          <p>Joint, conditional, marginal distributions. What a likelihood function is.</p>
+        </div>
+        <div class="prereq-card">
+          <span class="prereq-tag">Math</span>
+          <h4>Calculus</h4>
+          <p>Derivatives and optimization. Gradient descent at a high level.</p>
+        </div>
+        <div class="prereq-card">
+          <span class="prereq-tag">Code</span>
+          <h4>Python basics</h4>
+          <p>Loops, functions, NumPy arrays. Matplotlib for plotting.</p>
+        </div>
+        <div class="prereq-card">
+          <span class="prereq-tag">Code</span>
+          <h4>Jupyter notebooks</h4>
+          <p>Comfortable running and editing cells. Google Colab works fine.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About BAMB -->
+  <section class="section" style="background: var(--bg-primary); border-top: 0.5px solid var(--border-light);">
+    <div class="page">
+      <div class="section-label">About</div>
+      <h2 class="section-title">BAMB! Barcelona Summer School</h2>
+      <p class="section-intro">
+        The BAMB! Preschool is a free preparatory resource for the 
+        <a href="https://bambschool.github.io" style="color: var(--blue-600);">BAMB! Barcelona Summer School 
+        for Advanced Modeling of Behavior</a> — an intensive annual school on computational 
+        modeling of cognition and behavior. The preschool covers the modeling 101 foundations 
+        that all BAMB! participants are expected to know.
+      </p>
+      <div class="about-grid">
+        <div class="about-card">
+          <h4>Full BAMB! course</h4>
+          <p>The main summer school covers 6+ days of advanced topics including drift-diffusion models, 
+          latent variable models, and recurrent neural networks. 
+          <a href="https://github.com/bambschool/BAMB2024">See BAMB! 2024 ↗</a></p>
+        </div>
+        <div class="about-card">
+          <h4>Open-source materials</h4>
+          <p>All slides and notebooks are freely available under CC BY 4.0. 
+          Fork, adapt, and use them in your own teaching. 
+          <a href="https://github.com/bambschool/preschool">Preschool repo ↗</a></p>
+        </div>
+        <div class="about-card">
+          <h4>Questions &amp; updates</h4>
+          <p>Found an issue or want to contribute? Open an issue or pull request on GitHub. 
+          Video links will be updated here when they go live on YouTube.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="page">
+    <div class="footer-inner">
+      <p>
+        BAMB! Preschool · 
+        <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · 
+        Materials hosted at <a href="https://github.com/bambschool/preschool">github.com/bambschool/preschool</a>
+      </p>
+      <div class="footer-links">
+        <a href="https://github.com/bambschool">bambschool org</a>
+        <a href="https://github.com/bambschool/BAMB2024">BAMB! 2024</a>
+        <a href="https://github.com/bambschool/BAMB2023">BAMB! 2023</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
