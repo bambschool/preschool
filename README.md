@@ -8,9 +8,9 @@ A short preparatory course for the [BAMB! Barcelona Summer School for Advanced M
 
 | # | Topic | Slides | Notebook |
 |---|-------|--------|----------|
-| 1 | Model definition and estimation | [slides/](slides/) | [code/tutorial_1.ipynb](code/tutorial_1.ipynb) |
-| 2 | Parameter fitting and recovery | [slides/](slides/) | [code/tutorial_2.ipynb](code/tutorial_2.ipynb) |
-| 3 | Model comparison | [slides/](slides/) | [code/tutorial_3.ipynb](code/tutorial_3.ipynb) |
+| 1 | Model definition and estimation | [slides/](slides/) | [code/tutorial_1A.ipynb](code/tutorial_1A.ipynb) |
+| 2 | Parameter fitting and recovery | [slides/](slides/) | [code/tutorial_1B.ipynb](code/tutorial_1B.ipynb) |
+| 3 | Model comparison | [slides/](slides/) | [code/tutorial_1C.ipynb](code/tutorial_1C.ipynb) |
 
 Lecture videos will be posted on YouTube — links will be updated on the course page.
 
