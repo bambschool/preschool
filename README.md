@@ -1,6 +1,6 @@
 # BAMB! Preschool — Modeling 101
 
-A short preparatory course for the [BAMB! Barcelona Summer School for Advanced Modeling of Behavior](https://github.com/bambschool). Three lectures covering the modeling foundations expected of all BAMB! participants.
+A short preparatory course for the [BAMB! Barcelona Summer School for Advanced Modeling of Behavior](https://github.com/bambschool). One introductory and three practical lectures covering the modeling foundations expected of all BAMB! participants. Notebooks in this repo are for practical lectures 2-4.
 
 📄 **Course page: [bambschool.github.io/preschool](https://bambschool.github.io/preschool)**
 
